@@ -1034,6 +1034,8 @@ static void mesh_mpm_fsm(struct wpa_supplicant *wpa_s, struct sta_info *sta,
 	case PLINK_HOLDING:
 		switch (event) {
 		case CLS_ACPT:
+			wpa_msg(wpa_s, MSG_INFO, MESH_PEER_DISCONNECTED MACSTR,
+				MAC2STR(sta->addr));
 			mesh_mpm_fsm_restart(wpa_s, sta);
 			break;
 		case OPN_ACPT:
