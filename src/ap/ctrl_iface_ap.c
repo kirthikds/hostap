@@ -341,6 +341,12 @@ static int hostapd_ctrl_iface_sta_mib(struct hostapd_data *hapd,
 			len += ret;
 	}
 
+	ret = os_snprintf(buf + len, buflen - len, "bss_transition=%d\n",
+			  sta->bss_transition);
+	if (os_snprintf_error(buflen - len, ret))
+		return len;
+	len += ret;
+
 	return len;
 }
 

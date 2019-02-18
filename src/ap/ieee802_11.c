@@ -2267,6 +2267,9 @@ static u16 check_ext_capab(struct hostapd_data *hapd, struct sta_info *sta,
 		}
 	}
 
+	if (ext_capab_ie_len >= 3)
+		sta->bss_transition = !!(ext_capab_ie[2] & BIT(3));
+
 	return WLAN_STATUS_SUCCESS;
 }
 

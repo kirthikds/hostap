@@ -117,6 +117,7 @@ struct sta_info {
 	unsigned int power_capab:1;
 	unsigned int agreed_to_steer:1;
 	unsigned int hs20_t_c_filtering:1;
+	unsigned int bss_transition:1;
 
 	u16 auth_alg;
 
