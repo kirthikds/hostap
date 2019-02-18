@@ -3253,6 +3253,16 @@ static int hostapd_ctrl_iface_receive_process(struct hostapd_data *hapd,
 		if (radius_server_dac_request(hapd->radius_srv, buf + 12) < 0)
 			reply_len = -1;
 #endif /* RADIUS_SERVER */
+	} else if (os_strncmp(buf, "BLOCK_PROBE_RESPONSE ", 21) == 0) {
+		if (hostapd_probe_block_cmd_add(&hapd->conf->pb_list,
+						&hapd->conf->num_pb_mac,
+						buf + 21) < 0)
+			reply_len = -1;
+	} else if (os_strncmp(buf, "UNBLOCK_PROBE_RESPONSE ", 23) == 0) {
+		if (hostapd_probe_block_cmd_remove(&hapd->conf->pb_list,
+						   &hapd->conf->num_pb_mac,
+						buf + 23) < 0)
+			reply_len = -1;
 	} else {
 		os_memcpy(reply, "UNKNOWN COMMAND\n", 16);
 		reply_len = 16;

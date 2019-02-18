@@ -1151,3 +1151,24 @@ void hostapd_set_security_params(struct hostapd_bss_config *bss,
 		}
 	}
 }
+
+/**
+ * hostapd_probeblklist_found - Find a MAC address from a list
+ * @list: MAC address list
+ * @num_entries: Number of addresses in the list
+ * @addr: Address to search for
+ * Returns: 1 if address is in the list or 0 if not.
+ *
+ */
+int hostapd_probeblklist_found(struct probe_block_entry *list, int num_entries,
+				const u8 *addr)
+{
+	int i, res;
+
+	for (i = 0; i < num_entries; i++) {
+		res = os_memcmp(list[i].addr, addr, ETH_ALEN);
+		if (res == 0)
+			return 1;
+	}
+	return 0;
+}

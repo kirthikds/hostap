@@ -1479,6 +1479,17 @@ static int hostapd_cli_cmd_poll_sta(struct wpa_ctrl *ctrl, int argc,
 	return hostapd_cli_cmd(ctrl, "POLL_STA", 1, argc, argv);
 }
 
+static int hostapd_cli_cmd_block_probe(struct wpa_ctrl *ctrl, int argc,
+				        char *argv[])
+{
+	return hostapd_cli_cmd(ctrl, "BLOCK_PROBE_RESPONSE", 1, argc, argv);
+}
+
+static int hostapd_cli_cmd_unblock_probe(struct wpa_ctrl *ctrl, int argc,
+				          char *argv[])
+{
+	return hostapd_cli_cmd(ctrl, "UNBLOCK_PROBE_RESPONSE", 1, argc, argv);
+}
 
 struct hostapd_cli_cmd {
 	const char *cmd;
@@ -1651,6 +1662,10 @@ static const struct hostapd_cli_cmd hostapd_cli_commands[] = {
 	  "=Add/Delete/Show/Clear deny MAC ACL" },
 	{ "poll_sta", hostapd_cli_cmd_poll_sta, hostapd_complete_stations,
 	  "<addr> = poll a STA to check connectivity with a QoS null frame" },
+	{ "block_probe_response", hostapd_cli_cmd_block_probe, NULL,
+	  " = Block probe response to specifed STA address"},
+	{ "unblock_probe_response", hostapd_cli_cmd_unblock_probe, NULL,
+	  " = UnBlock probe response to specifed STA address"},
 	{ NULL, NULL, NULL, NULL }
 };
 

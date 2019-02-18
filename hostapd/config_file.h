@@ -19,4 +19,9 @@ int hostapd_add_acl_maclist(struct mac_acl_entry **acl, int *num,
 void hostapd_remove_acl_mac(struct mac_acl_entry **acl, int *num,
 			    const u8 *addr);
 
+int hostapd_probe_block_cmd_add(struct probe_block_entry **pb_list,
+				int *num, char *buf);
+int hostapd_probe_block_cmd_remove(struct probe_block_entry **pb_list,
+				   int *num, char *buf);
+
 #endif /* CONFIG_FILE_H */

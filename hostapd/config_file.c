@@ -4246,3 +4246,51 @@ int hostapd_set_iface(struct hostapd_config *conf,
 
 	return 0;
 }
+
+int hostapd_probe_block_cmd_add(struct probe_block_entry **pb_list,
+				       int *num, char *buf)
+{
+	struct probe_block_entry *entry;
+	u8 addr[ETH_ALEN];
+
+	if (hwaddr_aton(buf, addr)) {
+		wpa_printf(MSG_ERROR, "Invalid MAC address '%s'", buf);
+			return -1;
+	}
+
+	entry = os_realloc_array(*pb_list, *num + 1, sizeof(**pb_list));
+	if (entry == NULL) {
+		wpa_printf(MSG_ERROR, "Probe block list reallocation failed");
+		return -1;
+	}
+
+	*pb_list = entry;
+	os_memcpy((*pb_list)[*num].addr, addr, ETH_ALEN);
+	(*num)++;
+
+	return 0;
+}
+
+int hostapd_probe_block_cmd_remove(struct probe_block_entry **pb_list,
+					  int *num, char *buf)
+{
+	int i = 0;
+	u8 addr[ETH_ALEN];
+
+	if (hwaddr_aton(buf, addr)) {
+		wpa_printf(MSG_ERROR, "Invalid MAC address '%s'", buf);
+			return -1;
+	}
+
+	while (i < *num) {
+		if (os_memcmp((*pb_list)[i].addr, addr, ETH_ALEN) == 0) {
+			os_remove_in_array(*pb_list, *num,
+					   sizeof(**pb_list), i);
+			(*num)--;
+			return 0;
+		} else
+			i++;
+	}
+
+	return -1;
+}

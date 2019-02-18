@@ -689,6 +689,8 @@ struct hostapd_bss_config {
 	int coloc_intf_reporting;
 
 	u8 send_probe_response;
+	int num_pb_mac;
+	struct probe_block_entry *pb_list;
 };
 
 /**
@@ -839,6 +841,9 @@ struct hostapd_config {
 	unsigned int ch_switch_vht_config;
 };
 
+struct probe_block_entry {
+	macaddr addr;
+};
 
 int hostapd_mac_comp(const void *a, const void *b);
 struct hostapd_config * hostapd_config_defaults(void);
@@ -864,5 +869,7 @@ hostapd_config_get_radius_attr(struct hostapd_radius_attr *attr, u8 type);
 int hostapd_config_check(struct hostapd_config *conf, int full_config);
 void hostapd_set_security_params(struct hostapd_bss_config *bss,
 				 int full_config);
+int hostapd_probeblklist_found(struct probe_block_entry *list, int num_entries,
+			       const u8 *addr);
 
 #endif /* HOSTAPD_CONFIG_H */

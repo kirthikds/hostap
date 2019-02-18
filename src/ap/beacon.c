@@ -954,6 +954,10 @@ void handle_probe_req(struct hostapd_data *hapd,
 		return;
 	}
 #endif /* CONFIG_TESTING_OPTIONS */
+	if (hostapd_probeblklist_found(hapd->conf->pb_list,
+				       hapd->conf->num_pb_mac, mgmt->sa)) {
+		return;
+	}
 
 	wpa_msg_ctrl(hapd->msg_ctx, MSG_INFO, RX_PROBE_REQUEST "sa=" MACSTR
 		     " signal=%d", MAC2STR(mgmt->sa), ssi_signal);
