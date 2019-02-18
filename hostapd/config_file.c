@@ -4121,6 +4121,8 @@ static int hostapd_config_fill(struct hostapd_config *conf,
 	} else if (os_strcmp(buf, "coloc_intf_reporting") == 0) {
 		bss->coloc_intf_reporting = atoi(pos);
 #endif /* CONFIG_OWE */
+	} else if (os_strcmp(buf, "no_pri_sec_switch") == 0) {
+		conf->no_pri_sec_switch = atoi(pos);
 	} else {
 		wpa_printf(MSG_ERROR,
 			   "Line %d: unknown configuration item '%s'",
