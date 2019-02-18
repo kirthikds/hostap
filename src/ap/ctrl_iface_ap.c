@@ -24,6 +24,8 @@
 #include "ap_drv_ops.h"
 #include "mbo_ap.h"
 #include "taxonomy.h"
+#include "wpa_auth_ie.h"
+#include "wpa_auth_i.h"
 
 
 static size_t hostapd_write_ht_mcs_bitmask(char *buf, size_t buflen,
@@ -349,6 +351,12 @@ static int hostapd_ctrl_iface_sta_mib(struct hostapd_data *hapd,
 
 	ret = os_snprintf(buf + len, buflen - len, "rrm_beacon_req=%d\n",
 			  sta->rrm_beacon_req);
+	if (os_snprintf_error(buflen - len, ret))
+		return len;
+	len += ret;
+
+	ret = os_snprintf(buf + len, buflen - len, "fast_transition=%d\n",
+					  wpa_key_mgmt_ft(sta->wpa_sm->wpa_key_mgmt));
 	if (os_snprintf_error(buflen - len, ret))
 		return len;
 	len += ret;
