@@ -347,6 +347,12 @@ static int hostapd_ctrl_iface_sta_mib(struct hostapd_data *hapd,
 		return len;
 	len += ret;
 
+	ret = os_snprintf(buf + len, buflen - len, "rrm_beacon_req=%d\n",
+			  sta->rrm_beacon_req);
+	if (os_snprintf_error(buflen - len, ret))
+		return len;
+	len += ret;
+
 	return len;
 }
 

@@ -2435,6 +2435,15 @@ static u16 owe_process_assoc_req(struct hostapd_data *hapd,
 	wpa_auth_pmksa_add2(hapd->wpa_auth, sta->addr, sta->owe_pmk,
 			    sta->owe_pmk_len, pmkid, 0, WPA_KEY_MGMT_OWE);
 
+	if (elems.rrm_enabled) {
+		sta->rrm_beacon_req = ((sta->rrm_enabled_capa[0] &
+							   WLAN_RRM_CAPS_BEACON_REPORT_ACTIVE)
+							   && (sta->rrm_enabled_capa[0] &
+							   WLAN_RRM_CAPS_BEACON_REPORT_PASSIVE));
+	} else {
+		sta->rrm_beacon_req = 0;
+	}
+
 	return WLAN_STATUS_SUCCESS;
 }
 
